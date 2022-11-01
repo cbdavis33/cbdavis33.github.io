@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Stan and R for Pharmacometrics",
     "section": "",
-    "text": "Welcome to the tutorial on Stan and R for Pharmacometrics (PMx). Here we discuss the technical details as well as provide hands on examples on how to apply Stan and R for standard pharmacometrics workflows in drug research and development.\nThis will serve as a repository that can be freely accessed by anyone who would like to learn as well as contribute to the content. The authors plan to continuously develop the content here when new code, approaches, or methods become available.\nWe hope you will benefit from this resource.\nSincerely,  Casey, Yasong, Arya, and Pavan"
+    "text": "Welcome to the tutorial on Stan and R for Pharmacometrics (PMx). Here we discuss the technical details as well as provide hands on examples on how to apply Stan and R for standard pharmacometrics workflows in drug research and development.\nThis will serve as a repository that can be freely accessed by anyone who would like to learn as well as contribute to the content. The authors plan to continuously develop the content here when new code, approaches, or methods become available. We would also like you to submit new code and models as you see fit.\nWe hope you will benefit from this resource.\nSincerely,  Casey, Yasong, Arya, and Pavan"
   },
   {
     "objectID": "intro.html",

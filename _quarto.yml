@@ -18,8 +18,12 @@ book:
     - part: Curriculum
       chapters: 
         - intro.qmd
+        - stancodeblocks.qmd
+        - logisticregression.qmd
     - part: Support
       chapters:
+        - installation.qmd
+        - logreg_ho_solution.qmd
         - summary.qmd
         - references.qmd
 

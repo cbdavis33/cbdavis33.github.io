@@ -1,6 +1,19 @@
+*
+!*.*
+!*/
+
+*.DS_Store
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 
 /.quarto/
+
+*.exe 
+README.html
+
+*_cache
+*_files
+
+Scratch/

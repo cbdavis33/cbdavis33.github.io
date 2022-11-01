@@ -38,7 +38,6 @@ caption {
 ")
 ```
 
-
 ```{r package-load, include=TRUE, message=FALSE, warning=FALSE}
 
 # library(collapsibleTree)
@@ -60,88 +59,61 @@ register_knitr_engine()
 
 ```
 
-# Introduction
+## Introduction
 
-This document is is meant to introduce you to the most basic elements of 
-Bayesian inference. It is in no way comprehensive, but it will hopefully give 
-you a platform of understanding so that you can get as much as possible out of 
-this tutorial. 
+This document is is meant to introduce you to the most basic elements of Bayesian inference. It is in no way comprehensive, but it will hopefully give you a platform of understanding so that you can get as much as possible out of this tutorial.
 
 Here are a few references that we've found useful in our Bayesian lives:
 
-+ [Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/book/)
-+ [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)
-+ [Regression and Other Stories](https://avehtari.github.io/ROS-Examples/index.html)
-+ [Jose Storopoli's](https://storopoli.io/) slides on 
-[Bayesian Statistics](https://github.com/storopoli/Bayesian-Statistics)
+-   [Bayesian Data Analysis](http://www.stat.columbia.edu/~gelman/book/)
+-   [Statistical Rethinking](https://xcelab.net/rm/statistical-rethinking/)
+-   [Regression and Other Stories](https://avehtari.github.io/ROS-Examples/index.html)
+-   [Jose Storopoli's](https://storopoli.io/) slides on [Bayesian Statistics](https://github.com/storopoli/Bayesian-Statistics)
 
-# Statistical Inference
+## Statistical Inference
 
-- In any experiment, survey, observational study, or clinical trial, we are 
-using sample data to try to answer some question(s) about the population of 
-interest.
-- We collect (sample) *data* $\left(X\right)$ to estimate *parameters* 
-$\left(\theta\right)$ and perform some sort of inference (point estimation, 
-confidence intervals, hypothesis tests, \ldots) to say something/make decisions 
-about the "population."
-- However, learning from the data is complicated by the natural variability of 
-the measurements, so we can't find the "correct" values of the parameters.
-- We want to quantify our knowledge/uncertainty about the parameters with point
-estimates, i.e., "typical" values, and uncertainty estimates such as standard 
-errors, CV\%, and confidence intervals.
+-   In any experiment, survey, observational study, or clinical trial, we are using sample data to try to answer some question(s) about the population of interest.
+-   We collect (sample) *data* $\left(X\right)$ to estimate *parameters* $\left(\theta\right)$ and perform some sort of inference (point estimation, confidence intervals, hypothesis tests, \ldots) to say something/make decisions about the "population."
+-   However, learning from the data is complicated by the natural variability of the measurements, so we can't find the "correct" values of the parameters.
+-   We want to quantify our knowledge/uncertainty about the parameters with point estimates, i.e., "typical" values, and uncertainty estimates such as standard errors, CV%, and confidence intervals.
 
-## Motivating Examples
+### Motivating Examples
 
-We want to estimate the proportion of the population that likes [Mountain Dew 
-Cheesecake](https://www.tastemade.com/shows/the-scran-line/mountain-dew-cheesecake).
+We want to estimate the proportion of the population that likes [Mountain Dew Cheesecake](https://www.tastemade.com/shows/the-scran-line/mountain-dew-cheesecake).
 
 \vspace{0.25 in}
-<center>
-![](Images/mt_dew_cheesecake.png){width=250px}
-</center>
 
-### Example 1
+<center>![](Images/mt_dew_cheesecake.png){width="250px"}</center>
 
-After collecting $n = 6$ data points where $x = 5$ people liked it, we want to 
-make inferences about the population parameter $\theta$, the proportion of
-people in the population that likes Mt. Dew Cheesecake.
+#### Example 1
 
-### Example 2
+After collecting $n = 6$ data points where $x = 5$ people liked it, we want to make inferences about the population parameter $\theta$, the proportion of people in the population that likes Mt. Dew Cheesecake.
 
-After collecting $n = 60$ data points where $x = 50$ people liked it, we want to 
-make inferences about the population parameter $\theta$
+#### Example 2
 
-# Frequentist/Likelihoodist Approach
+After collecting $n = 60$ data points where $x = 50$ people liked it, we want to make inferences about the population parameter $\theta$
 
-The most common methods for parameter estimation in non-Bayesian paradigms 
-involve some sort of optimization. For this problem, we'll use 
-[maximum likelihood](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation),
-^[You might see least squares, AIC, BIC, or -2 LL, but the idea is the same.]
-where we find the value of $\theta$ that maximizes the likelihood^[The 
-likelihood contains all the information contained in the data], or, in other
-words, we find the value of $\theta$ that maximizes the probability of observing
-the data that we have observed.
+## Frequentist/Likelihoodist Approach
 
-In the above example, we assume the data has a 
-[binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution) 
-with $n$ trials and probability of success, $\theta$, i.e. 
-$X \sim Bin(n,\theta)$. Then we can write out the density^[This might be called
-a "probability mass function" for discrete $x$, a "probability density function"
-for continuous $x$ or as a generic term, or simply the "density", and the reader
-should know from context what is meant.] $f(x \;| \; \theta)$, the 
-probability that we would would observe $x$ "successes" out of $n$ trials for a 
-given value of $\theta$ for any value of $x \in \{0, 1, 2, \ldots, n\}$ and 
-$0 \leq \theta \leq 1$:
-$$ \begin{align}
+The most common methods for parameter estimation in non-Bayesian paradigms involve some sort of optimization. For this problem, we'll use [maximum likelihood](https://en.wikipedia.org/wiki/Maximum_likelihood_estimation), [^intro-1] where we find the value of $\theta$ that maximizes the likelihood[^intro-2], or, in other words, we find the value of $\theta$ that maximizes the probability of observing the data that we have observed.
+
+[^intro-1]: You might see least squares, AIC, BIC, or -2 LL, but the idea is the same.
+
+[^intro-2]: The likelihood contains all the information contained in the data
+
+In the above example, we assume the data has a [binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution) with $n$ trials and probability of success, $\theta$, i.e. $X \sim Bin(n,\theta)$. Then we can write out the density[^intro-3] $f(x \;| \; \theta)$, the probability that we would would observe $x$ "successes" out of $n$ trials for a given value of $\theta$ for any value of $x \in \{0, 1, 2, \ldots, n\}$ and $0 \leq \theta \leq 1$: $$ \begin{align}
 f(x | \theta) &= P(X = x \;| \;\theta) \\ 
 &= {n \choose x}\theta^x(1 - \theta)^{n-x},
 \;\; x = 0, \; 1, \; 2, \;\ldots, \; n
 \end{align}$$
 
-For Example 1 above with $n = 6$, for $\theta$ values of 0.4 and 0.75, the 
-density of $X$ looks like this: 
+[^intro-3]: This might be called a "probability mass function" for discrete $x$, a "probability density function" for continuous $x$ or as a generic term, or simply the "density", and the reader should know from context what is meant.
 
-```{r binomial-densities, fig.align="center", fig.cap="Two binomial densities."}
+For Example 1 above with $n = 6$, for $\theta$ values of 0.4 and 0.75, the density of $X$ looks like this:
+
+```{r, fig.align="center"}
+#| label: fig-binomial-densities
+#| fig-cap: "Two Binomial Densities"
 
 n_1 <- 6
 probs <- c(0.40, 0.75)
@@ -197,17 +169,15 @@ subplot(p1, p2, titleY = TRUE, titleX = TRUE, margin = 0.08) %>%
 
 ```
 
-But we want to maximize the *likelihood* function, 
-$\mathcal{L}(\theta \; | \; x)$. Luckily for us, it is the **same as the 
-density**, but is a function of $\theta$ for a given $x$, instead of $X$ for a 
-given $\theta$. That is, $\mathcal{L}(\theta \; | \; x) = f(x \;| \; \theta)$.
-For Example 1 with $n = 6$ and $x = 5$ the likelihood is as below 
-$$\begin{align}
+But we want to maximize the *likelihood* function, $\mathcal{L}(\theta \; | \; x)$. Luckily for us, it is the **same as the density**, but is a function of $\theta$ for a given $x$, instead of $X$ for a given $\theta$. That is, $\mathcal{L}(\theta \; | \; x) = f(x \;| \; \theta)$. For Example 1 with $n = 6$ and $x = 5$ the likelihood is as below \begin{align}
 \mathcal{L}(\theta \; | \; x)  &= {n \choose x}\theta^x(1 - \theta)^{n-x} \\ 
 &= {6 \choose 5}\theta^5(1 - \theta)^{6 - 5}, \;\; 0 \leq \theta \leq 1
-\end{align}$$
+\end{align}
 
-```{r binomial-likelihood, fig.align="center", fig.cap="Binomial likelihood."}
+```{r, fig.align="center"}
+#| label: fig-binomial-likelihood
+#| fig-cap: "Binomial likelihood."
+
 
 n_1 <- 6
 x_1 <- 5
@@ -224,39 +194,14 @@ x_1 <- 5
 
 ```
 
+The *maximum likelihood estimate* (MLE), $\hat\theta$, is the value of $\theta$ that maximizes this function. That is, $$\hat\theta = \underset{\theta}{\mathrm{argmax}} \; 
+\mathcal{L}(\theta \; | \; x)$$
 
-The *maximum likelihood estimate* (MLE), $\hat\theta$, is the value of $\theta$ 
-that maximizes this function. That is, 
-$$\hat\theta = \underset{\theta}{\mathrm{argmax}} \; 
-\mathcal{L}(\theta \; | \; x)$$. 
+Intuitively, it is the value of $\theta$ that is "most likely" given the observed data. For example, in our example it doesn't seem likely that we would observe our data if $\theta = 0.25$, but it seems more likely that we could observe this data if $\theta = 0.8$ or so.
 
-Intuitively, it is the value of $\theta$ that is "most likely" given the 
-observed data. For example, in our example it doesn't seem likely that 
-we would observe our data if $\theta = 0.25$, but it seems more likely that we 
-could observe this data if $\theta = 0.8$ or so. 
+We also want to quantify the uncertainty of this estimate, typically with a *standard error*. A larger standard error means we are more uncertain about our estimate than a smaller standard error, and in a sense, the standard error is a measure of the "pointiness" of the likelihood. The (asymptotic) standard error can be calculated as the square root of the diagonals of the inverse of the [Fisher information](https://en.wikipedia.org/wiki/Fisher_information) matrix evaluated at the MLE (the [observed Fisher information](https://en.wikipedia.org/wiki/Observed_information). See [here](http://www.sherrytowers.com/mle_introduction.pdf) for a more thorough discussion of MLEs, Fisher information, and the form when $\theta$ is a vector). An intuitive explanation of the relationship of the standard errors to the Fisher information matrix is that the standard error is a measure of the curvature of the likelihood. Roughly, more information in the data $\implies$ large negative values in the observed Fisher information matrix (more curvature) $\implies$ smaller values after inversion to get the variance.
 
-We also want to quantify the uncertainty of this estimate, typically with 
-a *standard error*. A larger standard error means we are more uncertain about
-our estimate than a smaller standard error, and in a sense, the standard error 
-is a measure of the "pointiness" of the likelihood. The (asymptotic) standard 
-error can be calculated as the square root of the 
-diagonals of the inverse of the 
-[Fisher information](https://en.wikipedia.org/wiki/Fisher_information) matrix 
-evaluated at the MLE (the [observed 
-Fisher information](https://en.wikipedia.org/wiki/Observed_information). See 
-[here](http://www.sherrytowers.com/mle_introduction.pdf) for a more thorough 
-discussion of MLEs, Fisher information, and the form when $\theta$ is a 
-vector). An intuitive explanation of the relationship of the standard errors 
-to the Fisher information matrix is that the standard error is a measure of the 
-curvature of the likelihood. Roughly, more information in the data $\implies$ 
-large negative values in the observed Fisher information matrix (more curvature)
-$\implies$ smaller values after inversion to get the variance. 
-
-
-This particular example has a simple, closed-form solution, but most of our 
-problems in the PK/PD world require a numerical optimization, typically by some 
-gradient-based method. So for our example, we can do this numerical optimization
-in R
+This particular example has a simple, closed-form solution, but most of our problems in the PK/PD world require a numerical optimization, typically by some gradient-based method. So for our example, we can do this numerical optimization in R
 
 ```{r numerical-mles}
 
@@ -333,32 +278,15 @@ p2 <- tibble(theta = seq(0, 1, by = 0.01)) %>%
 
 ```
 
-# Bayesian Approach
+## Bayesian Approach
 
-Classical methods treat the parameter(s) as fixed and the data random and 
-then find a point estimate and standard error using only information from the 
-data^[You can argue that regularization methods like 
-[ridge regression](https://en.wikipedia.org/wiki/Tikhonov_regularization) and 
-[lasso](https://en.wikipedia.org/wiki/Lasso_(statistics)) incorporate prior 
-information with the constraint parameter ($\lambda$). Most people don't think 
-of the constraint as prior information, but there is a direct Bayesian analogue
-(with *maximum a posteriori* (MAP) estimation) to (many) regularization 
-methods.]. In contrast, Bayesian methods treat the parameter(s) as a random 
-variable and consider the data fixed and then make inferences based on a proper 
-*distribution*. These methods initially allocate probability to all possible 
-parameter values via a *prior distribution* and then reallocate probability when
-new information is gained. Bayesian inference depends on our ability to quantify
-the *posterior distribution* of the parameters conditioned on the data. 
-This posterior distribution contains all of our knowledge about $\theta$ (prior 
-knowledge and knowledge obtained from the data). 
+Classical methods treat the parameter(s) as fixed and the data random and then find a point estimate and standard error using only information from the data[^intro-4]. In contrast, Bayesian methods treat the parameter(s) as a random variable and consider the data fixed and then make inferences based on a proper *distribution*. These methods initially allocate probability to all possible parameter values via a *prior distribution* and then reallocate probability when new information is gained. Bayesian inference depends on our ability to quantify the *posterior distribution* of the parameters conditioned on the data. This posterior distribution contains all of our knowledge about $\theta$ (prior knowledge and knowledge obtained from the data).
 
-## Bayes' Theorem
+[^intro-4]: You can argue that regularization methods like [ridge regression](https://en.wikipedia.org/wiki/Tikhonov_regularization) and [lasso](https://en.wikipedia.org/wiki/Lasso_(statistics)) incorporate prior information with the constraint parameter ($\lambda$). Most people don't think of the constraint as prior information, but there is a direct Bayesian analogue (with *maximum a posteriori* (MAP) estimation) to (many) regularization methods.
 
-The form of the posterior distribution follows from 
-[Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem)^[The integral 
-is used generally. If the parameter space of $\theta$ is discrete, this will be 
-a summation, and if $\theta$ is a vector, then there will be multiple integrals 
-(and/or summations)]:
+### Bayes' Theorem
+
+The form of the posterior distribution follows from [Bayes' Theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem)[^intro-5]: 
 $$\begin{align}
 \color{blue}{p\left( \theta | x\right)} &= 
 \frac{p(x, \theta)}{\color{red}{f\left( x \right)}} \notag \\
@@ -366,41 +294,31 @@ $$\begin{align}
 \right)}}{\color{red}{f\left( x \right)}} \notag \\
 &= \frac{\color{green}{f\left( x | \theta\right)}\color{orange}{p\left( \theta 
 \right)}}{\color{red}{\int \limits_{\Theta}f\left( x | \theta\right) 
-p\left( \theta \right) \mathrm{d}\theta}} (\#eq:bayes-theorem)
-\end{align}$$
+p\left( \theta \right) \mathrm{d}\theta}} 
+\end{align}$${#eq-bayes-theorem}
 
+[^intro-5]: The integral is used generally. If the parameter space of $\theta$ is discrete, this will be a summation, and if $\theta$ is a vector, then there will be multiple integrals (and/or summations)
 
-### Prior Distribution
+#### Prior Distribution
 
-We begin with the <font color="orange">prior distribution</font> to quantify our 
-knowledge/beliefs about $\theta$ before we collect data. For our examples, 
-we might assume 
+We begin with the <font color="orange">prior distribution</font> to quantify our knowledge/beliefs about $\theta$ before we collect data. For our examples, we might assume
 
-1) a "noninformative" prior distribution^[For now, disregard that
-[no priors are truly noninformative](https://normaldeviate.wordpress.com/2013/07/13/lost-causes-in-statistics-ii-noninformative-priors/). 
-and that "noninformative" priors are often a 
-[bad idea](http://www.stat.columbia.edu/~gelman/research/published/taumain.pdf).]
-and use a $Uniform(0, 1)$ (equivalent to a $Beta(1,1)$^[For $X \sim 
-Beta(\alpha, \beta)$,
-$$\begin{align}
-f(x) &= \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\;\Gamma(\beta)} \;
-x^{\alpha - 1}\;(1-x)^{\beta - 1} \\
-&= \frac{1}{B(\alpha, \beta)}\;x^{\alpha - 1}\;(1-x)^{\beta - 1}, 
-\; 0 \leq x \leq 1, \;\;\; \alpha, \; \beta > 0
-\end{align}$$ 
-where $\Gamma(\cdot)$ is the 
-[Gamma function](https://en.wikipedia.org/wiki/Gamma_function) and 
-$B(\cdot, \cdot)$ is the 
-[Beta function](https://en.wikipedia.org/wiki/Beta_function)] distribution for 
-$p(\theta)$). This is a simple way to express our ignorance about $\theta$. 
+1)  a "noninformative" prior distribution[^intro-6] and use a $Uniform(0, 1)$ (equivalent to a $Beta(1,1)$[^intro-7] distribution for $p(\theta)$). This is a simple way to express our ignorance about $\theta$.
 
-2) an informative prior that expresses our belief that most 
-people will not like Mt. Dew Cheesecake. We might quantify this with a 
-$Beta(2, 3)$ distribution.
+2)  an informative prior that expresses our belief that most people will not like Mt. Dew Cheesecake. We might quantify this with a $Beta(2, 3)$ distribution.
 
+[^intro-6]: For now, disregard that [no priors are truly noninformative](https://normaldeviate.wordpress.com/2013/07/13/lost-causes-in-statistics-ii-noninformative-priors/). and that "noninformative" priors are often a [bad idea](http://www.stat.columbia.edu/~gelman/research/published/taumain.pdf).
 
+[^intro-7]: For $X \sim Beta(\alpha, \beta)$, $$\begin{align}
+    f(x) &= \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha)\;\Gamma(\beta)} \;
+    x^{\alpha - 1}\;(1-x)^{\beta - 1} \\
+    &= \frac{1}{B(\alpha, \beta)}\;x^{\alpha - 1}\;(1-x)^{\beta - 1}, 
+    \; 0 \leq x \leq 1, \;\;\; \alpha, \; \beta > 0
+    \end{align}$$ where $\Gamma(\cdot)$ is the [Gamma function](https://en.wikipedia.org/wiki/Gamma_function) and $B(\cdot, \cdot)$ is the [Beta function](https://en.wikipedia.org/wiki/Beta_function)
 
-```{r beta-priors, fig.width=11, fig.align="center", fig.cap="Two beta priors."}
+```{r, fig.width=11, fig.align="center"}
+#| label: fig-beta-priors
+#| fig-cap: "Two beta priors."
 
 alpha_1 <- 1
 beta_1 <- 1
@@ -430,11 +348,9 @@ df_prior <- tibble(theta = theta, prior_1 = dbeta(theta, alpha_1, beta_1),
 
 ```
 
-### Likelihood
+#### Likelihood
 
-The <font color="green">likelihood</font> is the 
-[same](#fig:binomial-likelihood) as we had when we were using optimization 
-methods (recall that $\mathcal{L}(\theta \; | \; x) = f(x \;| \; \theta)$). 
+The <font color="green">likelihood</font> is the same (see @fig-binomial-likelihood) as we had when we were using optimization methods (recall that $\mathcal{L}(\theta \; | \; x) = f(x \;| \; \theta)$).
 
 ```{r likelihoods, fig.width=11, fig.align="center", fig.cap="Unnormalized Likelihoods."}
 
@@ -460,18 +376,13 @@ plot_likelihood
 
 ```
 
-One thing to notice for each of these likelihoods is that they do not integrate
-to 1^[They do integrate to 1 with respect to $x$ (see Figure 
-\@ref(fig:binomial-densities)), but they do not with respect to $\theta$, which 
-is why they are not true probability distributions for $\theta$], one of the 
-requirements for a function to be a probability distribution. However, the 
-likelihood can be normalized to integrate to 1 by multiplying by a constant. 
-This will be touched upon again in the section on 
-[marginal distributions](#marginal-distribution) and in 
-[Appendix A](#appendix-a), and all future plots will plot a scaled likelihood 
-for visual purposes.
+One thing to notice for each of these likelihoods is that they do not integrate to 1[^intro-8], one of the requirements for a function to be a probability distribution. However, the likelihood can be normalized to integrate to 1 by multiplying by a constant. This will be touched upon again in the section on [marginal distributions](#marginal-distribution) and in [Appendix A](#appendix-a), and all future plots will plot a scaled likelihood for visual purposes.
 
-```{r likelihood-integrals}
+[^intro-8]: They do integrate to 1 with respect to $x$ (see @fig-binomial-densities), but they do not with respect to $\theta$, which is why they are not true probability distributions for $\theta$
+
+```{r}
+#| label: tbl-likelihood-integrals
+#| tbl-cap: Likelihood Integrals
 
 like_binom <- function(theta, n, x) dbinom(x, n, theta)
 integral_1 <- integrate(like_binom, n = n_1, x = x_1, 
@@ -488,58 +399,35 @@ tribble(~Example, ~Integral,
                             position = "center")
 
 ```
-Regardless, the likelihood is a key part of Bayes' Theorem and contains the 
-information about $\theta$ obtained from the data.
 
-### Marginal Distribution {#marginal-distribution}
+Regardless, the likelihood is a key part of Bayes' Theorem and contains the information about $\theta$ obtained from the data.
 
-Consider the case where $X$ has the sampling density $f(x \;|\; \theta)$ and 
-$\theta$ is a random variable with density $p(\theta)$. Then the joint density 
-of $X$ and $\theta$ is $$f(x, \; \theta) = f(x \;|\; \theta) \; p(\theta),$$ 
-which you will recognize as the numerator in Equation \@ref(eq:bayes-theorem). 
-The <font color="red">marginal distribution</font>^[It should be 
-noted that the marginal distribution is technically dependent on the 
-hyperparameters, e.g., for our examples with hyperpriors $\alpha$ and $\beta$ in 
-$p(\theta)$, $f(x)$ is technically $f_{\alpha, \beta}(x)$, but the 
-dependence on the hyperparameters is understood.] of $X$ is then 
-$$ \begin{align}
+#### Marginal Distribution {#marginal-distribution}
+
+Consider the case where $X$ has the sampling density $f(x \;|\; \theta)$ and $\theta$ is a random variable with density $p(\theta)$. Then the joint density of $X$ and $\theta$ is $$f(x, \; \theta) = f(x \;|\; \theta) \; p(\theta),$$ which you will recognize as the numerator in @eq-bayes-theorem. The <font color="red">marginal distribution</font>[^intro-9] of $X$ is then $$\begin{align}
 f(x) &= \int \limits_{\Theta}f(x, \; \theta) \; \mathrm{d}\theta \notag \\ 
 &= \int \limits_{\Theta}f\left( x | \theta\right) p\left( \theta \right) 
-\mathrm{d}\theta (\#eq:marginal-distribution)
-\end{align}$$
+\mathrm{d}\theta 
+\end{align}$${#eq-marginal-distribution}
 
-That is, the marginal density of $X$ is equal to the conditional sampling 
-density of $X$ averaged over all possible values of $\theta$. It can also be 
-thought of as a description of the predictions we would make for $X$ given only 
-our prior knowledge, which is why this is sometimes called the "prior predictive 
-distribution"^[We will talk about this later when we go into setting priors for
-complex problems]. See [Appendix A](#appendix-a) for more discussion on the 
-marginal distribution.
+[^intro-9]: It should be noted that the marginal distribution is technically dependent on the hyperparameters, e.g., for our examples with hyperpriors $\alpha$ and $\beta$ in $p(\theta)$, $f(x)$ is technically $f_{\alpha, \beta}(x)$, but the dependence on the hyperparameters is understood.
 
-In practice, the marginal distribution is often analytically intractable, and it 
-is often just cast aside so that we have the posterior distribution.
-*up to a constant*:
-$$\begin{align}
+That is, the marginal density of $X$ is equal to the conditional sampling density of $X$ averaged over all possible values of $\theta$. It can also be thought of as a description of the predictions we would make for $X$ given only our prior knowledge, which is why this is sometimes called the "prior predictive distribution"[^intro-10]. See [Appendix A](#appendix-a) for more discussion on the marginal distribution.
+
+[^intro-10]: We will talk about this later when we go into setting priors for complex problems
+
+In practice, the marginal distribution is often analytically intractable, and it is often just cast aside so that we have the posterior distribution *up to a constant*: $$\begin{align}
 \color{blue}{p( \theta \; | \; x)} &= 
 \frac{\color{green}{f( x \; | \; \theta)}\; \color{orange}{p( \theta )}}
 {\color{red}{f\left( x \right)}} \notag \\
 &\propto \color{green}{f( x \; | \; \theta)}\; \color{orange}{p( \theta )}
-(\#eq:up-to-constant)
-\end{align}$$
+\end{align}$${#eq-up-to-constant}
 
-This inability to find a closed-form for the marginal distribution is not a 
-problem. Modern computational methods such as [Markov Chain Monte Carlo](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo) (MCMC) allow us 
-to sample from the posterior in such a way that the sample 
-represents the true posterior distribution arbitrarily closely, and we can 
-perform our inference based on this sample.
+This inability to find a closed-form for the marginal distribution is not a problem. Modern computational methods such as [Markov Chain Monte Carlo](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo) (MCMC) allow us to sample from the posterior in such a way that the sample represents the true posterior distribution arbitrarily closely, and we can perform our inference based on this sample.
 
-### Posterior Distribution
+#### Posterior Distribution
 
-The <font color="blue">posterior distribution</font> (See 
-[Appendix B](#appendix-b) for a derivation of the posterior for our examples)
-is the key to all Bayesian inference. It combines the prior distribution and the
-likelihood and contains all of the available information about $\theta$ (prior 
-knowledge and information obtained from the data):
+The <font color="blue">posterior distribution</font> (See [Appendix B](#appendix-b) for a derivation of the posterior for our examples) is the key to all Bayesian inference. It combines the prior distribution and the likelihood and contains all of the available information about $\theta$ (prior knowledge and information obtained from the data):
 
 ```{r posterior-plot, fig.width=11, fig.align="center", fig.cap="Posterior as a combination of the likelihood and prior."}
  
@@ -567,16 +455,9 @@ df_all %>%
 
 ```
 
-Once we have our posterior distribution, we can make similar inferences as in 
-frequentist inference:
+Once we have our posterior distribution, we can make similar inferences as in frequentist inference:
 
-- Point estimates - We have a proper *distribution* now, so we can report the 
-posterior <font color="red">mean</font>, <font color="purple">median</font>, or 
-<font color="black">mode</font> (
-`r round((alpha_2 + x_1)/(alpha_2 + x_1 + beta_2 + n_1 - x_1), 3)`, 
-`r round(qbeta(0.5, alpha_2 + x_1, beta_2 + n_1 - x_1), 3)`, and 
-`r round((alpha_2 + x_1 - 1)/(alpha_2 + x_1 + beta_2 + n_1 - x_1 - 2), 3)`, 
-respectively).
+-   Point estimates - We have a proper *distribution* now, so we can report the posterior <font color="red">mean</font>, <font color="purple">median</font>, or <font color="black">mode</font> ( `r round((alpha_2 + x_1)/(alpha_2 + x_1 + beta_2 + n_1 - x_1), 3)`, `r round(qbeta(0.5, alpha_2 + x_1, beta_2 + n_1 - x_1), 3)`, and `r round((alpha_2 + x_1 - 1)/(alpha_2 + x_1 + beta_2 + n_1 - x_1 - 2), 3)`, respectively).
 
 ```{r posterior-point-estimates, fig.width=11, fig.align="center", fig.cap="Posterior point estimates."}
 
@@ -604,19 +485,10 @@ posterior_point_estimates <- tribble(
 
 ```
 
-- Standard deviation (analogous to a standard error) - for our example the 
-standard deviation is 
-`r sqrt((alpha_2 + x_1)*(beta_2 + n_1 - x_1)/((alpha_2 + beta_2 + n_1)^2*(alpha_2 + beta_2 + n_1 + 1))) %>% round(3)`
-- Even better, we can make interval estimates, e.g.credible intervals, with a 
-natural probabilistic interpretation:
-  + “There is a 95% chance that the true 
-proportion of people who like Mt. Dew cheesecake is between 
-`r qbeta(0.025, alpha_2 + x_1, beta_2 + n_1 - x_1) %>% round(3)` and 
-`r qbeta(0.975, alpha_2 + x_1, beta_2 + n_1 - x_1) %>% round(3)`.” 
-  + "There is an 
-`r round(pbeta(0.5, alpha_2 + x_1, beta_2 + n_1 - x_1, lower.tail = FALSE)*100, 2)`%
-chance that the true proportion of people who like Mt. Dew cheesecake is at 
-least 0.5."
+-   Standard deviation (analogous to a standard error) - for our example the standard deviation is `r sqrt((alpha_2 + x_1)*(beta_2 + n_1 - x_1)/((alpha_2 + beta_2 + n_1)^2*(alpha_2 + beta_2 + n_1 + 1))) %>% round(3)`
+-   Even better, we can make interval estimates, e.g.credible intervals, with a natural probabilistic interpretation:
+    -   "There is a 95% chance that the true proportion of people who like Mt. Dew cheesecake is between `r qbeta(0.025, alpha_2 + x_1, beta_2 + n_1 - x_1) %>% round(3)` and `r qbeta(0.975, alpha_2 + x_1, beta_2 + n_1 - x_1) %>% round(3)`."
+    -   "There is an `r round(pbeta(0.5, alpha_2 + x_1, beta_2 + n_1 - x_1, lower.tail = FALSE)*100, 2)`% chance that the true proportion of people who like Mt. Dew cheesecake is at least 0.5."
 
 ```{r interval-plots, fig.width=11, fig.align="center"}
 
@@ -664,12 +536,7 @@ p_ci + p_gt_50
 
 ```
 
-- We can also look at the *posterior predictive distribution* (See 
-[Appendix C](#appendix-c) for a derivation of the posterior predictive 
-distribution for our examples). This is the distribution of possible unobserved 
-values conditional on our observed values. For example, we could look at the
-density for a future observation, $x^*$, for different future values of
-$n, n^*$.
+-   We can also look at the *posterior predictive distribution* (See [Appendix C](#appendix-c) for a derivation of the posterior predictive distribution for our examples). This is the distribution of possible unobserved values conditional on our observed values. For example, we could look at the density for a future observation, $x^*$, for different future values of $n, n^*$.
 
 ```{r posterior-predictive-plot, fig.width=11, fig.align="center"}
 
@@ -697,40 +564,19 @@ n_star <- c(6, 10)
 
 ```
 
+## Markov Chain Monte Carlo {#mcmc}
 
-# Markov Chain Monte Carlo {#mcmc}
+As mentioned in the [section on marginal distributions](#marginal-distribution), we often have an analytically intractable marginal distribution, which means we cannot get a closed-form solution for the posterior distribution[^intro-11]. Markov Chain Monte Carlo (MCMC) methods allow us to sample from the posterior distribution, and we can perform our inference based on numerical integration of the sample, rather than analytical integration when the closed-form is known.
 
-As mentioned in the [section on marginal distributions](#marginal-distribution),
-we often have an analytically intractable marginal distribution, which means we
-cannot get a closed-form solution for the posterior distribution^[Our examples 
-here have been simple and used 
-[conjugate priors](https://en.wikipedia.org/wiki/Conjugate_prior), so we have 
-been able to find a closed-form solution for the posterior. This is rarely the 
-case in our real-life problems in the PK/PD world.]. Markov Chain Monte Carlo 
-(MCMC) methods allow us to sample from the posterior distribution, and we can
-perform our inference based on numerical integration of the sample, rather than
-analytical integration when the closed-form is known.
+[^intro-11]: Our examples here have been simple and used [conjugate priors](https://en.wikipedia.org/wiki/Conjugate_prior), so we have been able to find a closed-form solution for the posterior. This is rarely the case in our real-life problems in the PK/PD world.
 
-Traditional Monte Carlo methods include the 
-[Gibbs sampler](https://en.wikipedia.org/wiki/Gibbs_sampling) and
-[Metropolis-Hastings](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm).
-These methods are fast and easy-to-implement, but often lead to inefficient 
-sampling from the posterior. [Stan](https://mc-stan.org/)^[Python also has a 
-NUTS implementation in the [PyMC](https://www.pymc.io/welcome.html) package. Julia 
-has a NUTS implementation in the [Turing](https://turing.ml/stable/) package,
-NONMEM also can sample from the posterior using either M-H and Gibbs with the
-BAYES method or using NUTS with the NUTS method.] implements a more 
-modern method called the [No U-Turn Sampler](https://arxiv.org/abs/1111.4246) 
-(NUTS) that is itself an extension of 
-[Hamiltonian Monte Carlo](https://en.wikipedia.org/wiki/Hamiltonian_Monte_Carlo).
-While more computationally intensive than Gibbs sampling or Metropolis-Hastings,
-it samples more efficiently from the posterior than those more traditional 
-methods.
+Traditional Monte Carlo methods include the [Gibbs sampler](https://en.wikipedia.org/wiki/Gibbs_sampling) and [Metropolis-Hastings](https://en.wikipedia.org/wiki/Metropolis%E2%80%93Hastings_algorithm). These methods are fast and easy-to-implement, but often lead to inefficient sampling from the posterior. [Stan](https://mc-stan.org/)[^intro-12] implements a more modern method called the [No U-Turn Sampler](https://arxiv.org/abs/1111.4246) (NUTS) that is itself an extension of [Hamiltonian Monte Carlo](https://en.wikipedia.org/wiki/Hamiltonian_Monte_Carlo). While more computationally intensive than Gibbs sampling or Metropolis-Hastings, it samples more efficiently from the posterior than those more traditional methods.
 
-## MCMC - An Illustration
+[^intro-12]: Python also has a NUTS implementation in the [PyMC](https://www.pymc.io/welcome.html) package. Julia has a NUTS implementation in the [Turing](https://turing.ml/stable/) package, NONMEM also can sample from the posterior using either M-H and Gibbs with the BAYES method or using NUTS with the NUTS method.
 
-Let's assume we know the posterior density up to a constant, as in Equation
-\@ref(eq:up-to-constant):
+### MCMC - An Illustration
+
+Let's assume we know the posterior density up to a constant, as in @eq-up-to-constant):
 
 ```{r mcmc-illustration-truth, cache=TRUE, echo=FALSE}
 
@@ -767,8 +613,7 @@ ggplot(data_1) +
 
 ```
 
-Since we don't have the marginal distribution, we can't analytically integrate
-our posterior, but we can sample from it using MCMC methods:
+Since we don't have the marginal distribution, we can't analytically integrate our posterior, but we can sample from it using MCMC methods:
 
 ```{r mcmc-illustration-sample, cache=TRUE, eval=TRUE, include=FALSE}
 stan_code <- "
@@ -818,14 +663,7 @@ df <- samples$draws("theta", format = "draws_df") %>%
 
 ```
 
-```{r embed-falling-drops, fig.align="center"}
-## I did some stuff in Python to create a video. I couldn't get it to work in 
-## reticulate, so I'm just going to embed it after making it in a Jupyter 
-## notebook and downloading it
-
-embedr::embed_video("Videos/samples_falling_drops.mp4", type = "mp4",
-                    attribute = "controls", width = "600", height = "450")
-```
+![](Videos/samples_falling_drops.mp4){width="600" height="450"}
 
 In practice we use multiple chains to sample from the target distribution:
 
@@ -898,8 +736,7 @@ new_gif
 
 ```
 
-When we have collected all of our samples, we combine the chains, and the 
-resulting samples should be distributed according to the true posterior:
+When we have collected all of our samples, we combine the chains, and the resulting samples should be distributed according to the true posterior:
 
 ```{r mcmc-illustration-hist, cache=TRUE, fig.align='center', fig.cap="Samples overlayed with the true distribution."}
 
@@ -909,14 +746,9 @@ mcmc_hist(samples$draws("theta"), freq = FALSE) +
 
 ```
 
+### MCMC for Our Examples
 
-## MCMC for Our Examples
-
-Our examples are very simple and have a simple closed form for the posterior 
-distribution (see [Appendix B](#appendix-b)) and posterior predictive 
-distribution (see [Appendix C](#appendix-c)). But let's imagine the marginal
-distribution was intractable, and we weren't able to find the closed form for 
-the posterior. We'll write the model in Stan and then sample from the posterior.
+Our examples are very simple and have a simple closed form for the posterior distribution (see [Appendix B](#appendix-b)) and posterior predictive distribution (see [Appendix C](#appendix-c)). But let's imagine the marginal distribution was intractable, and we weren't able to find the closed form for the posterior. We'll write the model in Stan and then sample from the posterior.
 
 ```{stan stan-model, output.var="model_beta_binomial", cache=TRUE}
 
@@ -952,7 +784,6 @@ generated quantities{
 
 ```
 
-
 ```{r stan-fit}
 
 stan_data <- list(x = 5,
@@ -975,8 +806,7 @@ summary <- summarize_draws(fit$draws("theta"),
 
 ```
 
-Now we can perform inference using our samples. We can look at the full 
-posterior distributions with either histograms or density plots:
+Now we can perform inference using our samples. We can look at the full posterior distributions with either histograms or density plots:
 
 ```{r sample-posterior-distribution, cache=TRUE, fig.width=9, fig.height=9, fig.align="center"}
 
@@ -1004,9 +834,7 @@ post_hist /
 
 We can also make similar inferences as before:
 
-- Point estimates - for these samples, the posterior 
-<font color="red">mean</font> and <font color="purple">median</font> 
-are `r round(summary$mean, 3)` and `r round(summary$median, 3)`, respectively.
+-   Point estimates - for these samples, the posterior <font color="red">mean</font> and <font color="purple">median</font> are `r round(summary$mean, 3)` and `r round(summary$median, 3)`, respectively.
 
 ```{r posterior-inference, cache=TRUE, fig.width=11, fig.align="center"}
 
@@ -1025,15 +853,10 @@ post_dens +
 
 ```
 
-- The posterior standard deviation for $\theta$ is `r round(summary$sd, 3)`.
-- Interval estimates
-  + 95% credible interval - “There is a 95% chance that the true 
-proportion of people who like Mt. Dew cheesecake is between 
-`r summary$q2.5 %>% round(3)` and `r summary$q97.5 %>% round(3)`.” 
-  + "There is an 
-`r round(summary$pr_gt_half*100, 2)`%
-chance that the true proportion of people who like Mt. Dew cheesecake is at 
-least 0.5."
+-   The posterior standard deviation for $\theta$ is `r round(summary$sd, 3)`.
+-   Interval estimates
+    -   95% credible interval - "There is a 95% chance that the true proportion of people who like Mt. Dew cheesecake is between `r summary$q2.5 %>% round(3)` and `r summary$q97.5 %>% round(3)`."
+    -   "There is an `r round(summary$pr_gt_half*100, 2)`% chance that the true proportion of people who like Mt. Dew cheesecake is at least 0.5."
 
 ```{r sample-interval-plots, fig.width=11, fig.align="center", cache=TRUE}
 
@@ -1075,10 +898,9 @@ sample_ci +
 
 ```
 
-We can look at the posterior predictive distribution^[With $n^* = 6 = n$, we are
-also doing a *posterior predictive check (PPC)*. The idea of PPC is that if a 
-model is a good fit, then we should be able to use it to generate data that 
-looks a lot like the data we observed.] for $n^* = 6$ and $n^* = 10$:
+We can look at the posterior predictive distribution[^intro-13] for $n^* = 6$ and $n^* = 10$:
+
+[^intro-13]: With $n^* = 6 = n$, we are also doing a *posterior predictive check (PPC)*. The idea of PPC is that if a model is a good fit, then we should be able to use it to generate data that looks a lot like the data we observed.
 
 ```{r sample-ppd, fig.width=11, fig.align="center"}
 
@@ -1100,10 +922,9 @@ looks a lot like the data we observed.] for $n^* = 6$ and $n^* = 10$:
 
 ```
 
-### Comparison with the Analytical Posterior
+#### Comparison with the Analytical Posterior
 
-To compare the true, analytical posterior with the sampled posterior we can look
-at the full densities:
+To compare the true, analytical posterior with the sampled posterior we can look at the full densities:
 
 ```{r posterior-comparison-density, fig.width=11, fig.align="center"}
 
@@ -1161,6 +982,7 @@ estimates %>%
   add_header_above(c(" " = 1, "Estimate" = 2))
 
 ```
+
 and the posterior predictive densities:
 
 ```{r posterior-comparison-ppd, fig.width=11, fig.align="center"}
@@ -1192,49 +1014,33 @@ bind_rows(d1, d2) %>%
 
 ```
 
-You can see that all posterior quantities are similar between the analytical 
-solutions and those estimated through MCMC.
+You can see that all posterior quantities are similar between the analytical solutions and those estimated through MCMC.
 
-# Summary/tl;dr
+## Summary/tl;dr
 
-- Classical methods find point estimates through optimization of some objective
-function (often some function of the likelihood) and quantify uncertainty by 
-examining the curvature of the likelihood at the point estimate.
+-   Classical methods find point estimates through optimization of some objective function (often some function of the likelihood) and quantify uncertainty by examining the curvature of the likelihood at the point estimate.
 
-- Bayesian methods quantify our knowledge about the parameter(s) with a 
-*distribution*. From this distribution, we can obtain point estimates, 
-uncertainty estimates, and make predictions for future data.
+-   Bayesian methods quantify our knowledge about the parameter(s) with a *distribution*. From this distribution, we can obtain point estimates, uncertainty estimates, and make predictions for future data.
 
-- The posterior distribution is a combination of our prior distribution and the
-data and contains all of our knowledge about the parameter(s).
+-   The posterior distribution is a combination of our prior distribution and the data and contains all of our knowledge about the parameter(s).
 
-- The likelihood contains all of the information from the data.
+-   The likelihood contains all of the information from the data.
 
-- The use of the prior distribution can range from being a nuisance that serves 
-simply as a catalyst that allows us to express uncertainty via Bayes'theorem to
-a means to stabilize the sampling algorithm to actually incorporating knowledge
-about the parameter(s) before collecting data.
+-   The use of the prior distribution can range from being a nuisance that serves simply as a catalyst that allows us to express uncertainty via Bayes'theorem to a means to stabilize the sampling algorithm to actually incorporating knowledge about the parameter(s) before collecting data.
 
-- We often can't get the posterior distribution in closed-form, but we can 
-generally use Markov Chain Monte Carlo methods to obtain a sample that 
-approximates the posterior.
+-   We often can't get the posterior distribution in closed-form, but we can generally use Markov Chain Monte Carlo methods to obtain a sample that approximates the posterior.
 
-- Stan is a great tool for performing the MCMC sampling.
+-   Stan is a great tool for performing the MCMC sampling.
 
-# Appendices 
+## Appendices
 
-## Appendix A - More on the Marginal Distribution {#appendix-a}
+### Appendix A - More on the Marginal Distribution {#appendix-a}
 
-While the marginal distribution is often analytically intractable, there are 
-some cases where we can find the closed form. For our examples, we have assumed
-$$\begin{align}
+While the marginal distribution is often analytically intractable, there are some cases where we can find the closed form. For our examples, we have assumed $$\begin{align}
 X|\theta &\sim Binomial(n, \; \theta) \\
 \theta &\sim Beta(\alpha, \; \beta)
-\end{align}$$
-Then
-$$\begin{align}
-f(x) &= \int \limits_{\Theta} p\left( x, \; \theta \right) \; \mathrm{d}\theta 
-(\#eq:integral-of-joint) \\
+\end{align}$$ Then $$\begin{align}
+f(x) &= \int \limits_{\Theta} p\left( x, \; \theta \right) \; \mathrm{d}\theta \\
 &= \int \limits_{\Theta}f\left( x | \theta\right) p\left( \theta \right) \;
 \mathrm{d}\theta  \notag \\
 &= \int_0^1 {n \choose x}\theta^x(1 - \theta)^{n-x} 
@@ -1245,25 +1051,13 @@ f(x) &= \int \limits_{\Theta} p\left( x, \; \theta \right) \; \mathrm{d}\theta
 \Gamma(\beta + n - x)}{\Gamma(\alpha + \beta + n)} \notag \\
 &= {n \choose x} \frac{B(\alpha + x, \; \beta + n - x)}{B(\alpha, \; \beta)},
 \; x \in \{0, 1, \ldots, n\}, \;\;\; \alpha, \; \beta > 0
-(\#eq:beta-binomial)
-\end{align}$$
-a [beta-binomial](https://en.wikipedia.org/wiki/Beta_binomial_distribution) 
-distribution^[The beta-binomial distribution is similar to the binomial 
-distribution in that it gives the probability of observing $x$ successes in $n$
-trials. However, while the binomial distribution considers $\theta$ fixed and 
-known, the beta-binomial distribution assumes $\theta$ is either unknown or 
-random and incorporates this uncertainty in $\theta$ by treating $\theta$ as a
-draw from a Beta distribution. This uncertainty in $\theta$ has the effect of 
-giving the beta-binomial a slightly larger variance than the binomial]. 
+\end{align}$${#eq-beta-binomial} a [beta-binomial](https://en.wikipedia.org/wiki/Beta-binomial_distribution) distribution[^intro-14].
 
-If we assume the prior distribution $\theta \sim Beta(1, 1)$ to express our 
-ignorance of $\theta$, then Equation \@ref(eq:beta-binomial) evaluates to 
-$$f(x) = \frac{1}{n+1}, \; x = 0, 1, \ldots, n$$ the density for a discrete 
-uniform. 
+[^intro-14]: The beta-binomial distribution is similar to the binomial distribution in that it gives the probability of observing $x$ successes in $n$ trials. However, while the binomial distribution considers $\theta$ fixed and known, the beta-binomial distribution assumes $\theta$ is either unknown or random and incorporates this uncertainty in $\theta$ by treating $\theta$ as a draw from a Beta distribution. This uncertainty in $\theta$ has the effect of giving the beta-binomial a slightly larger variance than the binomial
 
-If we assume the prior distribution $\theta \sim Beta(2, 3)$ to 
-express our prior knowledge of $\theta$, then 
-$$\begin{align}
+If we assume the prior distribution $\theta \sim Beta(1, 1)$ to express our ignorance of $\theta$, then @eq-beta-binomial evaluates to $$f(x) = \frac{1}{n+1}, \; x = 0, 1, \ldots, n$$ the density for a discrete uniform.
+
+If we assume the prior distribution $\theta \sim Beta(2, 3)$ to express our prior knowledge of $\theta$, then $$\begin{align}
 f(x) &= \frac{n!}{x!\;(n-x)!}\;\frac{4!}{1!\;2!} \; 
 \frac{(x+1)! \; (n-x+2)!}{(n+4)!}, \;\; x = 0, 1, \ldots, n
 \end{align}$$
@@ -1338,45 +1132,24 @@ subplot(p1, p2, titleY = TRUE, titleX = TRUE, margin = 0.08) %>%
 
 ```
 
-Stopping to think about this, these plots make sense: if we have no knowledge of
-$\theta$ (recall that a $Beta(1,1)$ distribution 
-is "noninformative"), then any value of $x$ should be no more or less likely 
-than any other possible value of $x$ conditional on our current knowledge of 
-$\theta$. If we have some idea of $\theta$ (a $Beta(2, 3)$ describes our belief
-that it is likely that $\theta < 0.5$, see Figure \@ref(fig:beta-priors)), then 
-we would also expect the marginal distribution of $X$ to be skewed towards lower
-values, as seen above.
+Stopping to think about this, these plots make sense: if we have no knowledge of $\theta$ (recall that a $Beta(1,1)$ distribution is "noninformative"), then any value of $x$ should be no more or less likely than any other possible value of $x$ conditional on our current knowledge of $\theta$. If we have some idea of $\theta$ (a $Beta(2, 3)$ describes our belief that it is likely that $\theta < 0.5$, see @fig-beta-priors), then we would also expect the marginal distribution of $X$ to be skewed towards lower values, as seen above.
 
-Having integrated $\theta$ out of the joint distribution of $X$ and $\theta$ in
-Equation \@ref(eq:integral-of-joint), we can see that the marginal distribution 
-is a constant in $\theta$. This constant is exactly the value needed to 
-normalize the numerator in Equation \@ref(eq:bayes-theorem), making the 
-posterior distribution a true distribution.
+Having integrated $\theta$ out of the joint distribution of $X$ and $\theta$, we can see that the marginal distribution is a constant in $\theta$. This constant is exactly the value needed to normalize the numerator in @eq-bayes-theorem, making the posterior distribution a true distribution.
 
-For example, if $\theta \sim Beta(1,1)$, then 
-$p(\theta) = 1, \; 0 \leq \theta \leq 1$. So the numerator in Equation 
-\@ref(eq:bayes-theorem) is 
-$$\begin{align}
+For example, if $\theta \sim Beta(1,1)$, then $p(\theta) = 1, \; 0 \leq \theta \leq 1$. So the numerator in @eq-bayes-theorem is $$\begin{align}
 f(x \; | \; \theta)\;p(\theta) &= f(x \;| \; \theta) \times 1 \\
 &= f(x \; | \; \theta) \\
 &= \mathcal{L}(\theta \; | \; x)
-\end{align}$$
-and we have already integrated our likelihoods for Examples 1 and 2 in Table 
-\@ref(tab:likelihood-integrals). If we divide the values in this table by
-$f(x) = \frac{1}{n+1}$ for the corresponding $n$, we get exactly 1 for both,
-i.e., we normalized the numerator, and so the posterior distribution is now a 
-true distribution^[The lack of normalization is why frequentist inference can't 
-talk about the likelihood as a *distribution*].
+\end{align}$$ and we have already integrated our likelihoods for Examples 1 and 2 in @tbl-likelihood-integrals. If we divide the values in this table by $f(x) = \frac{1}{n+1}$ for the corresponding $n$, we get exactly 1 for both, i.e., we normalized the numerator, and so the posterior distribution is now a true distribution[^intro-15].
 
-## Appendix B - Derivation of the Posterior in Our Examples {#appendix-b}
+[^intro-15]: The lack of normalization is why frequentist inference can't talk about the likelihood as a *distribution*
 
-For our examples, we have assumed
-$$\begin{align}
+### Appendix B - Derivation of the Posterior in Our Examples {#appendix-b}
+
+For our examples, we have assumed $$\begin{align}
 X|\theta &\sim Binomial(n, \; \theta) \\
 \theta &\sim Beta(\alpha, \; \beta)
-\end{align}$$
-Then
-$$\begin{align}
+\end{align}$$ Then $$\begin{align}
 p( \theta \; | \; x) &= 
 \frac{f( x \; | \; \theta)\; p( \theta )}{f\left( x \right)} \notag \\
 &\propto f( x \; | \; \theta)\; p( \theta ) \notag \\
@@ -1385,26 +1158,19 @@ p( \theta \; | \; x) &=
 \theta^{\alpha - 1}\;(1-\theta)^{\beta - 1} \notag \\
 &\propto \theta^{\alpha + x - 1}\;(1 - \theta)^{\beta + n - x - 1} \notag \\
 &\implies \theta\;|\;x \sim Beta(\alpha + x, \; \beta + n - x)
-\end{align}$$ 
+\end{align}$$
 
-## Appendix C - Derivation of the Posterior Predictive Distribution in Our Examples {#appendix-c}
+### Appendix C - Derivation of the Posterior Predictive Distribution in Our Examples {#appendix-c}
 
-In [Appendix B](#appendix-b) we derived the posterior distribution of $\theta$. 
-Here we will derive the posterior predictive distribution used for posterior 
-predictive checking and to simulate/predict future data. 
+In [Appendix B](#appendix-b) we derived the posterior distribution of $\theta$. Here we will derive the posterior predictive distribution used for posterior predictive checking and to simulate/predict future data.
 
-After collecting $x$ positive responses out of $n$ respondents, we want the 
-density for the number of positive responses, $x^*$, out of $n^*$ future 
-respondents. 
-
-
-$$\begin{align}
+After collecting $x$ positive responses out of $n$ respondents, we want the density for the number of positive responses, $x^*$, out of $n^*$ future respondents: $$\begin{align}
 f(x^* | x) &= \int \limits_{\Theta} p\left( x^*, \; \theta  | x \right) \; 
 \mathrm{d}\theta \notag \\
 &= \int \limits_{\Theta}f\left( x^* | \theta, x \right) 
 p\left( \theta | x \right) \; \mathrm{d}\theta  \notag \\
 &= \int \limits_{\Theta}f\left( x^* | \theta \right) 
-p\left( \theta | x \right) \; \mathrm{d}\theta (\#eq:beta-binomial-posterior-1) \\
+p\left( \theta | x \right) \; \mathrm{d}\theta \\
 &= \int_0^1 {n^* \choose x^*}\theta^{x^*}(1 - \theta)^{n^* - x^*} 
 \frac{\Gamma(\alpha + \beta + n)}{\Gamma(\alpha + x)\Gamma(\beta + n - x)} 
 \theta^{\alpha + x - 1}(1 - \theta)^{\beta + n - x - 1} \; 
@@ -1415,15 +1181,6 @@ p\left( \theta | x \right) \; \mathrm{d}\theta (\#eq:beta-binomial-posterior-1) 
 &= {n^* \choose x^*} 
 \frac{B(\alpha + x + x^*, \; \beta + n - x + n^* - x^*)}{B(\alpha + x, \; \beta + n - x)},
 \; x^* \in \{0, 1, \ldots, n^*\}
-(\#eq:beta-binomial-posterior)
-\end{align}$$
-another beta-binomial distribution.
+\end{align}$$ another beta-binomial distribution.
 
-Equation \@ref(eq:beta-binomial-posterior-1) is similar to 
-Equation \@ref(eq:marginal-distribution) in that it shows the posterior
-predictive distribution as an average of conditional predictions over the 
-posterior distribution of $\theta$. That is, it is equal to the conditional 
-sampling density of $X^*$\theta averaged over all possible values of $\theta$ 
-conditioned on our data.
-
-
+You can see that this is similar to @eq-marginal-distribution in that it shows the posterior predictive distribution as an average of conditional predictions over the posterior distribution of $\theta$. That is, it is equal to the conditional sampling density of $X^*$\theta averaged over all possible values of $\theta$ conditioned on our data.

@@ -9,11 +9,19 @@ book:
     - Yasong Lu
     - Arya Pourzanjani
     - Pavan Vaddady
+  repo-url: https://github.com/cbdavis33/cbdavis33.github.io
+  repo-branch: master
+  repo-actions: [issue]
+  sharing: [twitter, facebook]
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+    - part: Curriculum
+      chapters: 
+        - intro.qmd
+    - part: Support
+      chapters:
+        - summary.qmd
+        - references.qmd
 
 bibliography: references.bib
 
